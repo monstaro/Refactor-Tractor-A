@@ -1,0 +1,11 @@
+$bg: #1F1F1F;
+$font-sec: 'Work Sans', sans-serif;
+
+@mixin buttons($vw) {
+  background-position: center;
+  background-size: $vw;
+  border: none;
+  height: $vw;
+  width: $vw;
+}
+
