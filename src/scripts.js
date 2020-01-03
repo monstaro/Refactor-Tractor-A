@@ -1,6 +1,6 @@
 import './css/base.scss';
-import './css/styles.scss';
-
+import './css/index.scss'
+import './css/_variables.scss'
 import userData from './data/users';
 import activityData from './data/activity';
 import sleepData from './data/sleep';
@@ -11,6 +11,7 @@ import User from './User';
 import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
+
 
 
 
@@ -271,13 +272,12 @@ stepsFriendAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoa
 
 stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
 
+
 stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
 }).minutesActive;
 
-stepsUserStepsToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).numSteps;
+
 
 user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
 
@@ -300,3 +300,42 @@ friendsStepsParagraphs.forEach(paragraph => {
     paragraph.classList.add('yellow-text');
   }
 });
+
+
+
+const getUserData = () => {
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
+  .then(response => response.json())
+  .then(apiData => showLog(apiData))
+  .catch(error => console.log(error))
+}
+getUserData();
+
+let fetched;
+
+function showLog(apiData) {
+  fetched = apiData.userData;
+  console.log(fetched)
+}
+
+stepsUserStepsToday.innerText = fetched.find(activity => {
+  return activity.userID === user.id && activity.date === todayDate;
+}).numSteps;
+
+
+
+const getSleepData = () => {
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData")
+  .then(response => response.json())
+  .then(sleepData => console.log(sleepData))
+  .catch(error => console.log(error))
+}
+getSleepData();
+
+const getActivityData = () => {
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
+  .then(response => response.json())
+  .then(activityData => console.log(activityData))
+  .catch(error => console.log(error))
+}
+getActivityData()
